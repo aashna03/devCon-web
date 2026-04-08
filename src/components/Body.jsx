@@ -26,7 +26,7 @@ const Body = () => {
         if(error.status === 401){
           navigate("/login");// if error occurs while fetching user data, then navigate to login page 
         } 
-        console.error("Error fetching user data:", error);
+        // console.error("Error fetching user data:", error);
     }
   };
 
