@@ -21,7 +21,7 @@ const Body = () => {
       // hat line is needed to ask the backend: "Is this browser still authenticated? If yes, give me current user profile."
         const res = await axios.get(`${BASE_URL}/profile/view`, 
         { withCredentials: true });
-        dispatch(addUser(res.data));
+        dispatch(addUser(res.data.data));
     } catch (error) {
         if(error.status === 401){
           navigate("/login");// if error occurs while fetching user data, then navigate to login page 
@@ -44,7 +44,6 @@ const Body = () => {
         <NavBar/>
         <Outlet /> {/* Everything inside Body will be rendered here - login, profile, etc. */}
         <Footer />
-    
     </div>
   )
 }
