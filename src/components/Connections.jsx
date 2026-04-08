@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { addConnections } from "../utils/connectionSlice";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
 
@@ -55,6 +56,9 @@ const Connections = () => {
               {age&&<span>{ age }</span>} {age&&gender&&<span>, </span>} {gender&&<span>{gender}</span>}
               <p>{about}</p>
             </div>
+            <Link to={"/chat/"+_id} className="ml-auto">
+            <button className="btn btn-primary h-10 self-start ">Chat</button>
+            </Link>
           </div>
         );
       })}
