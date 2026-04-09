@@ -11,6 +11,31 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
   const user = useSelector((store) => store.user);
   const userId = user?._id;
+let date = new Date();
+
+
+  const fetchChatMessages = async () => {
+    const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {
+      withCredentials: true,
+    });
+
+    // console.log(chat.data.messages);
+    console.log(chat.data.data.messages);
+
+    const chatMessages = chat?.data?.data?.messages.map((msg) => {
+      const { senderId, message,createdAt } = msg;
+      return {
+        firstName: senderId?.firstName,
+        lastName: senderId?.lastName,
+        newMessage: message,
+        date: createdAt
+      };
+    });
+    setMessages(chatMessages);
+  };
+  useEffect(() => {
+    fetchChatMessages();
+  }, []);
 
 
   useEffect(() => {
@@ -92,7 +117,7 @@ const Chat = () => {
                             <span>{msg.firstName}</span> <span>{msg.lastName}</span>
                             <time className="text-xs opacity-50">{formattedTime}</time>
                         </div>
-                        <div className="chat-bubble whitespace-pre-wrap wrap-break-word max-w-full">{msg.newMessage}</div>
+                        <div className="chat-bubble whitespace-pre-wrap wrap-break-word max-w-5/12">{msg.newMessage}</div>
                         {/* here new msg are all the messages in the messages */}
                         {/* <div className="chat-footer opacity-50">Seen</div> */}
                     </div>
