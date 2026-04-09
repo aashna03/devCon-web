@@ -25,7 +25,6 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(res.data);
       dispatch(addUser(res.data))
       return navigate("/"); // after hitting login, navigate to home page /
       } 
