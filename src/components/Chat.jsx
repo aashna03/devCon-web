@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
@@ -11,16 +11,19 @@ const Chat = () => {
   const [newMessage, setNewMessage] = useState("");
   const user = useSelector((store) => store.user);
   const userId = user?._id;
-let date = new Date();
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: "auto" });
+    }
+  }, [messages]);
 
 
   const fetchChatMessages = async () => {
     const chat = await axios.get(BASE_URL + "/chat/" + targetUserId, {
       withCredentials: true,
     });
-
-    // console.log(chat.data.messages);
-    console.log(chat.data.data.messages);
 
     const chatMessages = chat?.data?.data?.messages.map((msg) => {
       const { senderId, message,createdAt } = msg;
@@ -54,10 +57,7 @@ let date = new Date();
 
     // listen for messages from the backend through socket connection, and update the messages state to display the new message in the chat window
     socket.on("messageReceived", ({ firstName, lastName, newMessage, date }) => {
-    //   console.log(firstName + " :  " + newMessage);
       setMessages((messages) => [...messages, { firstName, lastName, newMessage, date }]);
-    //   console.log(messages)
-    //   console.log("recieved message in Frontend")
     });
     // when the component unmounts, disconnect the socket connection to avoid memory leaks and unnecessary connections
     return () => {
@@ -80,6 +80,7 @@ let date = new Date();
   return (
     <div className="w-3/4 mx-auto border border-gray-600 m-5 h-[70vh] flex flex-col">
       <h1 className="p-5 border-b border-gray-600">Chat</h1>
+      
       <div className="flex-1 overflow-y-auto p-5">
         {   
             messages.map((msg, index) => {
@@ -120,11 +121,12 @@ let date = new Date();
                         <div className="chat-bubble whitespace-pre-wrap wrap-break-word max-w-5/12">{msg.newMessage}</div>
                         {/* here new msg are all the messages in the messages */}
                         {/* <div className="chat-footer opacity-50">Seen</div> */}
-                    </div>
+                    </div> 
                 </div>
                 );
             })
         }
+        <div ref={scrollRef}/>
         </div>
         <div className="p-5 border-t border-gray-600 flex items-center gap-2">
             <input
