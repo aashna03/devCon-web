@@ -15,8 +15,12 @@ const EditProfile = () => {
   const [age, setAge] = useState(user?.age || "");
   const [gender, setGender] = useState(user?.gender || "");
   const [about, setAbout] = useState(user?.about || "");
+  const [skillsInput, setSkillsInput] = useState(
+    Array.isArray(user?.skills) ? user.skills.join(", ") : ""
+  );
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
+
 
 
   const dispatch = useDispatch();
@@ -29,7 +33,13 @@ const EditProfile = () => {
     setAge(user.age || "");
     setGender(user.gender || "");
     setAbout(user.about || "");
+    setSkillsInput(Array.isArray(user.skills) ? user.skills.join(", ") : "");
   }, [user]);
+
+  const skills = skillsInput
+    .split(",")
+    .map((skill) => skill.trim())
+    .filter(Boolean);
 
 
   const saveProfile = async() => {
@@ -43,7 +53,8 @@ const EditProfile = () => {
                 photoURL,
                 age,
                 gender,
-                about
+              about,
+              skills
             },
             {withCredentials: true}
         );
@@ -138,6 +149,18 @@ const EditProfile = () => {
                 onChange={(e) => setAbout(e.target.value)}
                 />
             </label>
+            <label className="form-control w-full max-w-xs my-2">
+                <div className="label">
+                    <span className="label-text">Skills:</span>
+                </div>
+                <input
+                type="text"
+                value={skillsInput}
+                placeholder="skill_1, skill_2, skill_3"
+                className="input input-bordered w-full max-w-xs"
+                onChange={(e) => setSkillsInput(e.target.value)}
+                />
+            </label>
           </div>
           <p className="text-red-500">{error}</p>
           <div className="card-actions justify-center">
@@ -147,13 +170,13 @@ const EditProfile = () => {
       </div>
     </div>
     <UserCard 
-        user={{ firstName, lastName, photoURL, age, gender, about }}
+        user={{ firstName, lastName, photoURL, age, gender, about, skills }}
     />
     </div>
     <div className="toast toast-top toast-center">
     {showToast &&
     <div className="alert alert-success">
-        <span>Profile Updated successfully.</span>
+        <span>Profile Updated Successfully.</span>
     </div>}
     </div>
     </>
