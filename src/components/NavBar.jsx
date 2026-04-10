@@ -37,7 +37,7 @@ const NavBar = () => {
         </div>
         <div className="navbar-center lg:flex">
           <ul className="menu menu-horizontal px-1">
-            {{user}&&
+            {user&&(
             <>
               <li>
                 <Link to="/connections">
@@ -49,7 +49,7 @@ const NavBar = () => {
                   Requests
                 </Link>
               </li>
-            </>}
+            </>)}
             
           </ul>
         </div>
