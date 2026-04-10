@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserCard from "./UserCard";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { addUser } from "../utils/userSlice";
+import { useSelector } from "react-redux";
 
-const EditProfile = ({ user }) => {
-
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [photoURL, setPhotoURL] = useState(user.photoURL);
-  const [age, setAge] = useState(user.age || "");
-  const [gender, setGender] = useState(user.gender || "");
-  const [about, setAbout] = useState(user.about || "");
+// const EditProfile = ({ user }) => {
+const EditProfile = () => {
+  const user = useSelector((store) => store.user);
+  const [firstName, setFirstName] = useState(user?.firstName || "");
+  const [lastName, setLastName] = useState(user?.lastName || "");
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
+  const [age, setAge] = useState(user?.age || "");
+  const [gender, setGender] = useState(user?.gender || "");
+  const [about, setAbout] = useState(user?.about || "");
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
 
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!user) return;
+    setFirstName(user.firstName || "");
+    setLastName(user.lastName || "");
+    setPhotoURL(user.photoURL || "");
+    setAge(user.age || "");
+    setGender(user.gender || "");
+    setAbout(user.about || "");
+  }, [user]);
 
 
   const saveProfile = async() => {
@@ -43,7 +55,8 @@ const EditProfile = ({ user }) => {
 
         
     } catch (err) {
-        console.error(err.response.data);
+
+        console.error(err?.response?.data || err.message);
         setError(err?.response?.data?.message || "An error occurred while saving the profile.");
     }
   }
@@ -51,6 +64,7 @@ const EditProfile = ({ user }) => {
 
   
   return (
+    user&&
     <>
     <div className="flex justify-center my-15">
     <div className= "flex justify-center mx-10">
@@ -146,6 +160,7 @@ const EditProfile = ({ user }) => {
 
 
   )
+
 }
 
 export default EditProfile

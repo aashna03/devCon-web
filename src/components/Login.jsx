@@ -45,7 +45,7 @@ const Login = () => {
       { withCredentials: true }
       );
       dispatch(addUser(res.data.data))
-      return navigate("/profile"); // after hitting login, navigate to profile page /
+      return navigate("/edit"); // after hitting login, navigate to profile page /
       
     } catch (err) {
       console.error("Sign Up failed:", err?.response?.data || err.message);

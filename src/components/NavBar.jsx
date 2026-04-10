@@ -35,6 +35,21 @@ const NavBar = () => {
             DevCon
           </Link>
         </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1">
+            <li><a>Item 1</a></li>
+            <li>
+              <details>
+                <summary>Parent</summary>
+                <ul className="p-2 bg-base-100 w-40 z-1">
+                  <li><a>Submenu 1</a></li>
+                  <li><a>Submenu 2</a></li>
+                </ul>
+              </details>
+            </li>
+            <li><a>Item 3</a></li>
+          </ul>
+        </div>
         {user && (<div className="flex gap-2">
           {/* <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" /> */}
           {/* for user photo */}
@@ -49,13 +64,14 @@ const NavBar = () => {
                   src={user.photoURL} />
               </div>
             </div>
+
             <ul
               tabIndex="-1"
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
               <li>
-                <Link to="/profile" className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
+                <Link to="/edit" className="justify-between">
+                  Profile Edit
+                  {/* <span className="badge">New</span> */}
                 </Link>
               </li>
               <li>

@@ -19,11 +19,11 @@ const Body = () => {
     if(userData) return; // if user data is already present in the store, then no need to fetch user data from the server, so return from here
     try {
       // hat line is needed to ask the backend: "Is this browser still authenticated? If yes, give me current user profile."
-        const res = await axios.get(`${BASE_URL}/profile/view`, 
+      const res = await axios.get(`${BASE_URL}/profile/view`, 
         { withCredentials: true });
         dispatch(addUser(res.data.data));
     } catch (error) {
-        if(error.status === 401){
+        if(error?.response?.status === 401){
           navigate("/login");// if error occurs while fetching user data, then navigate to login page 
         } 
         // console.error("Error fetching user data:", error);
@@ -33,7 +33,7 @@ const Body = () => {
   useEffect(() => {
     if (location.pathname === "/login") return;
     // if(!userData){ // if user data is not present in the store, then fetch user data from the server and set it in the store, so that we can use it in the profile page and other places
-      fetchUser();
+    fetchUser();
     // }
 
   }, [location.pathname]) // to fetch user data on page load and set it in the store, so that we can use it in the profile page and other places
