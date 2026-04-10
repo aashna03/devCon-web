@@ -10,7 +10,7 @@ export const createSocketConnection = () => {
         reconnectionDelay: 1000,
         reconnectionDelayMax: 5000,
         reconnectionAttempts: 5,
-        transports: ["websocket", "polling"], 
+        transports: ["polling","websocket"], 
     });
 };
 
