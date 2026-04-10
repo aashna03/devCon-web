@@ -35,19 +35,22 @@ const NavBar = () => {
             DevCon
           </Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center lg:flex">
           <ul className="menu menu-horizontal px-1">
-            <li><a>Item 1</a></li>
-            <li>
-              <details>
-                <summary>Parent</summary>
-                <ul className="p-2 bg-base-100 w-40 z-1">
-                  <li><a>Submenu 1</a></li>
-                  <li><a>Submenu 2</a></li>
-                </ul>
-              </details>
-            </li>
-            <li><a>Item 3</a></li>
+            {{user}&&
+            <>
+              <li>
+                <Link to="/connections">
+                  Connections
+                </Link>
+              </li>
+              <li>
+                <Link to="/requests">
+                  Requests
+                </Link>
+              </li>
+            </>}
+            
           </ul>
         </div>
         {user && (<div className="flex gap-2">
@@ -71,17 +74,11 @@ const NavBar = () => {
               <li>
                 <Link to="/edit" className="justify-between">
                   Profile Edit
-                  {/* <span className="badge">New</span> */}
                 </Link>
               </li>
               <li>
-                <Link to="/connections">
-                  Connections
-                </Link>
-              </li>
-              <li>
-                <Link to="/requests">
-                  Requests
+                <Link to="/change-password" className="justify-between">
+                  Change Password
                 </Link>
               </li>
               <li><a onClick={handleLogout}>Logout</a></li>
