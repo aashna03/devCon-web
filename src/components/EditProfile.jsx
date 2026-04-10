@@ -53,8 +53,8 @@ const EditProfile = () => {
                 photoURL,
                 age,
                 gender,
-              about,
-              skills
+                about,
+                skills
             },
             {withCredentials: true}
         );

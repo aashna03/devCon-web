@@ -9,6 +9,8 @@ import Connections from "./components/Connections"
 import Requests from "./components/Requests"
 import Chat from "./components/Chat"
 import EditProfile from "./components/EditProfile"
+import ChangePassword from "./components/ChangePassword"
+
 
 function App() {
   return (
@@ -25,6 +27,7 @@ function App() {
           <Route path="/connections" element={<Connections />} />
           <Route path="/requests" element={<Requests/>} />
           <Route path="/chat/:targetUserId" element={<Chat />} />
+          <Route path="/change-password" element={<ChangePassword />} />
 
         
         </Route>
