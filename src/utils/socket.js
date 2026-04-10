@@ -1,11 +1,15 @@
 import io from "socket.io-client";
 import { BASE_URL } from "./constants";
 
-// This checks for the environment variable, or falls back to localhost
-const SOCKET_URL = `${BASE_URL}/socket.io` || "http://localhost:3000";
-
 export const createSocketConnection = () => {
-    return io(SOCKET_URL);
+    return io(BASE_URL, {
+        withCredentials: true,
+        reconnection: true,
+        reconnectionDelay: 1000,
+        reconnectionDelayMax: 5000,
+        reconnectionAttempts: 5,
+        transports: ["websocket", "polling"],
+    });
 };
 
 // import io from "socket.io-client";
